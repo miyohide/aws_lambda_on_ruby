@@ -1,5 +1,11 @@
 FROM public.ecr.aws/lambda/ruby:3.2
 
+RUN yum install -y amazon-linux-extras && \
+    amazon-linux-extras enable postgresql14 && \
+    yum group install "Development Tools" -y
+
+RUN yum install -y postgresql-devel
+
 # Copy Gemfile and Gemfile.lock
 COPY Gemfile Gemfile.lock ${LAMBDA_TASK_ROOT}/
 
