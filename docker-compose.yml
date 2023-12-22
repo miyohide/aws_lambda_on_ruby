@@ -1,0 +1,17 @@
+version: '3'
+services:
+  app:
+    build: .
+    image: my_lambda_app:0.0.1
+    environment:
+      PG_HOST: db
+      PG_USER: "postgres"
+      PG_PASSWORD: "postgres"
+
+  db:
+    image: postgres:15
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
