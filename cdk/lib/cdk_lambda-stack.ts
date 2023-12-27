@@ -1,4 +1,4 @@
-import { Stack, StackProps } from "aws-cdk-lib";
+import { Duration, Stack, StackProps } from "aws-cdk-lib";
 import { Repository } from "aws-cdk-lib/aws-ecr";
 import { DockerImageCode, DockerImageFunction } from "aws-cdk-lib/aws-lambda";
 
@@ -11,6 +11,7 @@ export class CdkLambdaStack extends Stack {
         // CDKでDockerイメージを使ったLambda関数を作成する
         new DockerImageFunction(this, "LambdaFunction", {
             code: DockerImageCode.fromEcr(repository, { tag: "latest" }),
+            timeout: Duration.seconds(30),
         });
     }
 }
