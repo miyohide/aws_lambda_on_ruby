@@ -48,5 +48,17 @@ export class CdkStack extends cdk.Stack {
         onePerAz: true,
       }
     });
+
+    // RDSインスタンスの作成と設定を行う。今回はPostgreSQLを使用しているため、
+    // DatabaseInstanceEngine.POSTGRESを指定する。
+    const rdsInstance = new DatabaseInstance(this, "MyRDSInstance", {
+      engine: DatabaseInstanceEngine.POSTGRES,
+      instanceType: InstanceType.of(InstanceClass.T2, InstanceSize.MICRO),
+      vpc: vpc,
+      databaseName: "mypostgresdb",
+      multiAz: false,
+      subnetGroup: dbSubnetGroup,
+      securityGroups: [rdsSecurityGroup],
+    });
   }
 }
