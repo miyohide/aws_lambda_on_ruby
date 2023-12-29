@@ -1,5 +1,6 @@
 import * as cdk from 'aws-cdk-lib';
 import { SubnetType, Vpc } from 'aws-cdk-lib/aws-ec2';
+import { SubnetGroup } from 'aws-cdk-lib/aws-rds';
 import { Construct } from 'constructs';
 
 export class CdkStack extends cdk.Stack {
@@ -30,6 +31,15 @@ export class CdkStack extends cdk.Stack {
           cidrMask: 24,
         }
       ]
+    });
+
+    const dbSubnetGroup = new SubnetGroup(this, "MyDBSubnetGroup", {
+      vpc: vpc,
+      description: "My DB Subnet Group",
+      vpcSubnets: {
+        subnetType: SubnetType.PRIVATE_WITH_EGRESS,
+        onePerAz: true,
+      }
     });
   }
 }
