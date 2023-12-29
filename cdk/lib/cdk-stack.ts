@@ -37,7 +37,7 @@ export class CdkStack extends cdk.Stack {
       vpc: vpc,
       description: "My DB Subnet Group",
       vpcSubnets: {
-        subnetType: SubnetType.PRIVATE_WITH_EGRESS,
+        subnetType: SubnetType.PRIVATE_ISOLATED,
         onePerAz: true,
       }
     });
