@@ -1,6 +1,6 @@
 import * as cdk from 'aws-cdk-lib';
-import { SubnetType, Vpc } from 'aws-cdk-lib/aws-ec2';
-import { SubnetGroup } from 'aws-cdk-lib/aws-rds';
+import { InstanceClass, InstanceSize, InstanceType, Port, SecurityGroup, SubnetType, Vpc } from 'aws-cdk-lib/aws-ec2';
+import { DatabaseInstance, DatabaseInstanceEngine, SubnetGroup } from 'aws-cdk-lib/aws-rds';
 import { Construct } from 'constructs';
 
 export class CdkStack extends cdk.Stack {
@@ -31,6 +31,13 @@ export class CdkStack extends cdk.Stack {
           cidrMask: 24,
         }
       ]
+    });
+
+    // RDS用のセキュリティグループの作成
+    const rdsSecurityGroup = new SecurityGroup(this, "RDSSecurityGroup", {
+      vpc: vpc,
+      description: "RDS Security Group",
+      allowAllOutbound: true,
     });
 
     const dbSubnetGroup = new SubnetGroup(this, "MyDBSubnetGroup", {
