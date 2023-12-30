@@ -33,23 +33,23 @@ export class CdkStack extends cdk.Stack {
       ]
     });
 
-    // EC2用のセキュリティグループを作成する
-    const ec2SecurityGroup = new SecurityGroup(this, "EC2SecurityGroup", {
-      vpc: vpc,
-      description: "EC2 Security Group",
-    });
+    // // EC2用のセキュリティグループを作成する
+    // const ec2SecurityGroup = new SecurityGroup(this, "EC2SecurityGroup", {
+    //   vpc: vpc,
+    //   description: "EC2 Security Group",
+    // });
 
-    // Databaseマネジメント用のEC2インスタンスを作成する
-    const machineImage = new AmazonLinuxImage();
-    const ec2Instance = new Instance(this, "ec2Instance", {
-      vpc: vpc,
-      instanceType: InstanceType.of(InstanceClass.T2, InstanceSize.MICRO),
-      machineImage: machineImage,
-      vpcSubnets: {
-        subnetType: SubnetType.PRIVATE_WITH_EGRESS,
-      },
-      securityGroup: ec2SecurityGroup,
-    })
+    // // Databaseマネジメント用のEC2インスタンスを作成する
+    // const machineImage = new AmazonLinuxImage();
+    // const ec2Instance = new Instance(this, "ec2Instance", {
+    //   vpc: vpc,
+    //   instanceType: InstanceType.of(InstanceClass.T2, InstanceSize.MICRO),
+    //   machineImage: machineImage,
+    //   vpcSubnets: {
+    //     subnetType: SubnetType.PRIVATE_WITH_EGRESS,
+    //   },
+    //   securityGroup: ec2SecurityGroup,
+    // })
 
     // RDS用のセキュリティグループの作成
     const rdsSecurityGroup = new SecurityGroup(this, "RDSSecurityGroup", {
@@ -79,6 +79,6 @@ export class CdkStack extends cdk.Stack {
       securityGroups: [rdsSecurityGroup],
     });
 
-    rdsInstance.connections.allowDefaultPortFrom(ec2Instance, "EC2 to RDS");
+    // rdsInstance.connections.allowDefaultPortFrom(ec2Instance, "EC2 to RDS");
   }
 }
