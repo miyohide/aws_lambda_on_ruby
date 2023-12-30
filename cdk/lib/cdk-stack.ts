@@ -71,7 +71,7 @@ export class CdkStack extends cdk.Stack {
     // DatabaseInstanceEngine.POSTGRESを指定する。
     const rdsInstance = new DatabaseInstance(this, "MyRDSInstance", {
       engine: DatabaseInstanceEngine.POSTGRES,
-      instanceType: InstanceType.of(InstanceClass.T2, InstanceSize.MICRO),
+      instanceType: InstanceType.of(InstanceClass.T3, InstanceSize.MICRO),
       vpc: vpc,
       databaseName: "mypostgresdb",
       multiAz: false,
