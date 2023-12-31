@@ -109,5 +109,7 @@ export class CdkStack extends cdk.Stack {
 
     // rdsInstance.connections.allowDefaultPortFrom(ec2Instance, "EC2 to RDS");
     rdsInstance.connections.allowDefaultPortFrom(lambda, "Lambda to RDS");
+
+    lambda.addEnvironment("PG_HOSTNAME", rdsInstance.dbInstanceEndpointAddress);
   }
 }
