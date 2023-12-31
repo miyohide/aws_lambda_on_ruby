@@ -1,5 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
 import { AmazonLinuxImage, Instance, InstanceClass, InstanceSize, InstanceType, Port, SecurityGroup, SubnetType, Vpc } from 'aws-cdk-lib/aws-ec2';
+import { Repository } from 'aws-cdk-lib/aws-ecr';
+import { Code, Handler, Runtime, Function } from 'aws-cdk-lib/aws-lambda';
 import { DatabaseInstance, DatabaseInstanceEngine, SubnetGroup } from 'aws-cdk-lib/aws-rds';
 import { Construct } from 'constructs';
 
@@ -51,6 +53,32 @@ export class CdkStack extends cdk.Stack {
     //   securityGroup: ec2SecurityGroup,
     // })
 
+    // ECRのリポジトリを指定する
+    const repository = Repository.fromRepositoryName(this, "MyRepository", "my-ruby-app");
+
+    // Lambda用のセキュリティグループを作成する
+    const lambdaSecurityGroup = new SecurityGroup(this, "LambdaSecurityGroup", {
+      vpc: vpc,
+      description: "Lambda Security Group",
+      allowAllOutbound: true,
+    });
+
+    // ECRにあるコンテナイメージを利用してLambda関数を作成する
+    const lambda = new Function(this, "Lambda", {
+      code: Code.fromEcrImage(repository, {
+        tag: "latest",
+      }),
+      functionName: "my-ruby-app",
+      runtime: Runtime.FROM_IMAGE,
+      handler: Handler.FROM_IMAGE,
+      timeout: cdk.Duration.seconds(30),
+      vpc: vpc,
+      vpcSubnets: {
+        subnetType: SubnetType.PRIVATE_WITH_EGRESS,
+      },
+      securityGroups: [lambdaSecurityGroup],
+    });
+
     // RDS用のセキュリティグループの作成
     const rdsSecurityGroup = new SecurityGroup(this, "RDSSecurityGroup", {
       vpc: vpc,
@@ -80,5 +108,6 @@ export class CdkStack extends cdk.Stack {
     });
 
     // rdsInstance.connections.allowDefaultPortFrom(ec2Instance, "EC2 to RDS");
+    rdsInstance.connections.allowDefaultPortFrom(lambda, "Lambda to RDS");
   }
 }
