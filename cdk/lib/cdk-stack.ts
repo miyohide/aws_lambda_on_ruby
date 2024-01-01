@@ -1,4 +1,5 @@
 import * as cdk from 'aws-cdk-lib';
+import { RemovalPolicy } from 'aws-cdk-lib';
 import { AmazonLinuxImage, Instance, InstanceClass, InstanceSize, InstanceType, Port, SecurityGroup, SubnetType, Vpc } from 'aws-cdk-lib/aws-ec2';
 import { Repository } from 'aws-cdk-lib/aws-ecr';
 import { Code, Handler, Runtime, Function } from 'aws-cdk-lib/aws-lambda';
@@ -105,6 +106,7 @@ export class CdkStack extends cdk.Stack {
       multiAz: false,
       subnetGroup: dbSubnetGroup,
       securityGroups: [rdsSecurityGroup],
+      removalPolicy: RemovalPolicy.DESTROY,
     });
 
     // rdsInstance.connections.allowDefaultPortFrom(ec2Instance, "EC2 to RDS");
