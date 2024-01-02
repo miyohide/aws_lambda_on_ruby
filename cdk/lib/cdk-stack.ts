@@ -3,7 +3,7 @@ import { RemovalPolicy } from 'aws-cdk-lib';
 import { AmazonLinuxImage, Instance, InstanceClass, InstanceSize, InstanceType, Port, SecurityGroup, SubnetType, Vpc } from 'aws-cdk-lib/aws-ec2';
 import { Repository } from 'aws-cdk-lib/aws-ecr';
 import { Code, Handler, Runtime, Function } from 'aws-cdk-lib/aws-lambda';
-import { DatabaseInstance, DatabaseInstanceEngine, SubnetGroup } from 'aws-cdk-lib/aws-rds';
+import { Credentials, DatabaseInstance, DatabaseInstanceEngine, SubnetGroup } from 'aws-cdk-lib/aws-rds';
 import { Construct } from 'constructs';
 
 export class CdkStack extends cdk.Stack {
@@ -96,6 +96,11 @@ export class CdkStack extends cdk.Stack {
       }
     });
 
+    // DBの認証情報をSecrets Managerで管理する
+    const rdsCredentials = Credentials.fromGeneratedSecret("postgres", {
+      secretName: "my-rds-credentials",
+    });
+
     // RDSインスタンスの作成と設定を行う。今回はPostgreSQLを使用しているため、
     // DatabaseInstanceEngine.POSTGRESを指定する。
     const rdsInstance = new DatabaseInstance(this, "MyRDSInstance", {
@@ -107,11 +112,14 @@ export class CdkStack extends cdk.Stack {
       subnetGroup: dbSubnetGroup,
       securityGroups: [rdsSecurityGroup],
       removalPolicy: RemovalPolicy.DESTROY,
+      credentials: rdsCredentials,
     });
 
     // rdsInstance.connections.allowDefaultPortFrom(ec2Instance, "EC2 to RDS");
     rdsInstance.connections.allowDefaultPortFrom(lambda, "Lambda to RDS");
 
     lambda.addEnvironment("PG_HOSTNAME", rdsInstance.dbInstanceEndpointAddress);
+    lambda.addEnvironment("PG_USERNAME", rdsCredentials.username);
+    lambda.addEnvironment("PG_PASSWORD", rdsCredentials.password!.toString());
   }
 }
