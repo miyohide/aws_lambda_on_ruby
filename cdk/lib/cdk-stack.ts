@@ -120,6 +120,6 @@ export class CdkStack extends cdk.Stack {
 
     lambda.addEnvironment("PG_HOSTNAME", rdsInstance.dbInstanceEndpointAddress);
     lambda.addEnvironment("PG_USERNAME", rdsCredentials.username);
-    lambda.addEnvironment("PG_PASSWORD", rdsCredentials.password!.toString());
+    // lambda.addEnvironment("PG_PASSWORD", rdsCredentials.password!.toString());
   }
 }
