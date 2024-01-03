@@ -1,13 +1,25 @@
 require 'pg'
+require 'aws-sdk-secretsmanager'
+require 'json'
 
 module LambdaFunction
   class Handler
     def self.process(event:,context:)
+      client = Aws::SecretsManager::Client.new(region: ENV['AWS_REGION'])
+
+      begin
+        res = client.get_secret_value(secret_id: ENV['MY_SECRETS_NAME'])
+      rescue StandardError => e
+        raise e
+      end
+
+      secret = JSON.parse(res.secret_string)
+
       conn = PG.connect(
-        host: ENV['PG_HOSTNAME'],
+        host: secret['host'],
         port: 5432,
-        user: ENV['PG_USERNAME'],
-        password: ENV['PG_PASSWORD']
+        user: secret['username'],
+        password: secret['password']
       )
       conn.exec("SELECT * FROM pg_stat_activity") do |result|
         puts "     PID | User             | Query"
