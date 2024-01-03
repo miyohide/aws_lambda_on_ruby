@@ -36,24 +36,6 @@ export class CdkStack extends cdk.Stack {
       ]
     });
 
-    // // EC2用のセキュリティグループを作成する
-    // const ec2SecurityGroup = new SecurityGroup(this, "EC2SecurityGroup", {
-    //   vpc: vpc,
-    //   description: "EC2 Security Group",
-    // });
-
-    // // Databaseマネジメント用のEC2インスタンスを作成する
-    // const machineImage = new AmazonLinuxImage();
-    // const ec2Instance = new Instance(this, "ec2Instance", {
-    //   vpc: vpc,
-    //   instanceType: InstanceType.of(InstanceClass.T2, InstanceSize.MICRO),
-    //   machineImage: machineImage,
-    //   vpcSubnets: {
-    //     subnetType: SubnetType.PRIVATE_WITH_EGRESS,
-    //   },
-    //   securityGroup: ec2SecurityGroup,
-    // })
-
     // ECRのリポジトリを指定する
     const repository = Repository.fromRepositoryName(this, "MyRepository", "my-ruby-app");
 
@@ -115,11 +97,9 @@ export class CdkStack extends cdk.Stack {
       credentials: rdsCredentials,
     });
 
-    // rdsInstance.connections.allowDefaultPortFrom(ec2Instance, "EC2 to RDS");
     rdsInstance.connections.allowDefaultPortFrom(lambda, "Lambda to RDS");
 
     lambda.addEnvironment("AWS_REGION", "ap-northeast-1");
     lambda.addEnvironment("MY_SECRETS_NAME", "my-rds-credentials");
-    // lambda.addEnvironment("PG_PASSWORD", rdsCredentials.password!.toString());
   }
 }
