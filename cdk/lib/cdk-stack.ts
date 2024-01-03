@@ -1,10 +1,22 @@
-import * as cdk from 'aws-cdk-lib';
-import { RemovalPolicy } from 'aws-cdk-lib';
-import { InstanceClass, InstanceSize, InstanceType, SecurityGroup, SubnetType, Vpc } from 'aws-cdk-lib/aws-ec2';
-import { Repository } from 'aws-cdk-lib/aws-ecr';
-import { Code, Handler, Runtime, Function } from 'aws-cdk-lib/aws-lambda';
-import { Credentials, DatabaseInstance, DatabaseInstanceEngine, SubnetGroup } from 'aws-cdk-lib/aws-rds';
-import { Construct } from 'constructs';
+import * as cdk from "aws-cdk-lib";
+import { RemovalPolicy } from "aws-cdk-lib";
+import {
+  InstanceClass,
+  InstanceSize,
+  InstanceType,
+  SecurityGroup,
+  SubnetType,
+  Vpc,
+} from "aws-cdk-lib/aws-ec2";
+import { Repository } from "aws-cdk-lib/aws-ecr";
+import { Code, Handler, Runtime, Function } from "aws-cdk-lib/aws-lambda";
+import {
+  Credentials,
+  DatabaseInstance,
+  DatabaseInstanceEngine,
+  SubnetGroup,
+} from "aws-cdk-lib/aws-rds";
+import { Construct } from "constructs";
 
 export class CdkStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -32,12 +44,16 @@ export class CdkStack extends cdk.Stack {
           name: "DBSubnet",
           subnetType: SubnetType.PRIVATE_ISOLATED,
           cidrMask: 24,
-        }
-      ]
+        },
+      ],
     });
 
     // ECRのリポジトリを指定する
-    const repository = Repository.fromRepositoryName(this, "MyRepository", "my-ruby-app");
+    const repository = Repository.fromRepositoryName(
+      this,
+      "MyRepository",
+      "my-ruby-app",
+    );
 
     // Lambda用のセキュリティグループを作成する
     const lambdaSecurityGroup = new SecurityGroup(this, "LambdaSecurityGroup", {
@@ -75,7 +91,7 @@ export class CdkStack extends cdk.Stack {
       vpcSubnets: {
         subnetType: SubnetType.PRIVATE_ISOLATED,
         onePerAz: true,
-      }
+      },
     });
 
     // DBの認証情報をSecrets Managerで管理する
