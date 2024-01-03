@@ -118,8 +118,8 @@ export class CdkStack extends cdk.Stack {
     // rdsInstance.connections.allowDefaultPortFrom(ec2Instance, "EC2 to RDS");
     rdsInstance.connections.allowDefaultPortFrom(lambda, "Lambda to RDS");
 
-    lambda.addEnvironment("PG_HOSTNAME", rdsInstance.dbInstanceEndpointAddress);
-    lambda.addEnvironment("PG_USERNAME", rdsCredentials.username);
+    lambda.addEnvironment("AWS_REGION", "ap-northeast-1");
+    lambda.addEnvironment("MY_SECRETS_NAME", "my-rds-credentials");
     // lambda.addEnvironment("PG_PASSWORD", rdsCredentials.password!.toString());
   }
 }
