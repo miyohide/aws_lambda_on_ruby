@@ -25,6 +25,11 @@ export class CdkCodesStack extends Stack {
         buildImage: LinuxBuildImage.STANDARD_7_0,
         privileged: true,
       },
+      environmentVariables: {
+        IMAGE_REPO_NAME: {
+          value: "my-ruby-app",
+        }
+      },
       logging: {
         cloudWatch: { enabled: true },
       },
