@@ -28,6 +28,9 @@ export class CdkCodesStack extends Stack {
       environmentVariables: {
         IMAGE_REPO_NAME: {
           value: "my-ruby-app",
+        },
+        IMAGE_TAG: {
+          value: "latest",
         }
       },
       logging: {
