@@ -1,8 +1,6 @@
 import { ScopedAws, Stack, StackProps } from "aws-cdk-lib";
 import {
-  Cache,
   LinuxBuildImage,
-  LocalCacheMode,
   Project,
   Source,
 } from "aws-cdk-lib/aws-codebuild";
