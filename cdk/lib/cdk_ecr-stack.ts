@@ -9,7 +9,7 @@ export class CdkEcrStack extends Stack {
     const ecrRepository = new Repository(this, "Repository", {
       repositoryName: "my-ruby-app",
       removalPolicy: RemovalPolicy.DESTROY,
-      autoDeleteImages: true,
+      emptyOnDelete: true,
     });
   }
 }
