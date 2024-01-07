@@ -1,9 +1,5 @@
 import { ScopedAws, Stack, StackProps } from "aws-cdk-lib";
-import {
-  LinuxBuildImage,
-  Project,
-  Source,
-} from "aws-cdk-lib/aws-codebuild";
+import { LinuxBuildImage, Project, Source } from "aws-cdk-lib/aws-codebuild";
 import { Repository } from "aws-cdk-lib/aws-codecommit";
 import { Construct } from "constructs";
 
@@ -34,7 +30,7 @@ export class CdkCodesStack extends Stack {
         },
         AWS_ACCOUNTID: {
           value: accountId,
-        }
+        },
       },
       logging: {
         cloudWatch: { enabled: true },
