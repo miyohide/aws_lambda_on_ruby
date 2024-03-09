@@ -1,0 +1,18 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      ruby: 3.2
+  build:
+    commands:
+      - bundle config set --local path 'vendor/bundle' && bundle install
+      - zip -r my_ruby_package.zip vendor
+  post_build:
+    commands:
+      - sam package --template-file template.yml --output-template-file package.yml --s3-bucket $S3BUCKET
+      - sam deploy --template-file package.yml --stack-name aws-lambda-on-ruby --capabilities CAPABILITY_IAM
+artifacts:
+  files:
+    - 'my_ruby_package.zip'
+  base-directory: '.'
