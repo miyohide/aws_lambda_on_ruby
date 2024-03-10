@@ -4,8 +4,7 @@ require 'active_support/all'
 module LambdaFunction
   class Handler
     def self.process(event:,context:)
-      p "".blank?
-      "Hello from Lambda!"
+      1.month.from_now
     end
   end
 end
