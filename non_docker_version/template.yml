@@ -24,6 +24,6 @@ Resources:
     Properties:
       LayerName: ruby-libs
       Description: Ruby libs
-      ContentUri: ./
+      ContentUri: ./my_ruby_package.zip
       CompatibleRuntimes:
         - ruby3.2
