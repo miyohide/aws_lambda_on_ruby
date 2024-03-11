@@ -15,7 +15,7 @@ Resources:
         - !Ref libs
       Environment:
         Variables:
-          GEM_HOME: /opt/vendor/bundle/3.2.0
+          GEM_HOME: /opt/vendor/bundle/ruby/3.2.0
       # Function's execution role
       Policies:
         - AWSLambdaBasicExecutionRole
