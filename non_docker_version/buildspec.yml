@@ -6,7 +6,7 @@ phases:
       ruby: 3.2
   build:
     commands:
-      - cd non_docker_version
+      - cd non_docker_version/lambda_app
       - bundle config set --local path 'vendor/bundle' && bundle install
       - zip -r my_ruby_package.zip vendor
   post_build:
