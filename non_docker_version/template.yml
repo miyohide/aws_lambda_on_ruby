@@ -6,6 +6,7 @@ Resources:
     Type: AWS::Serverless::Function
     # 関数の定義
     Properties:
+      CodeUri: lambda_app/
       Handler: lambda_function.LambdaFunction::Handler.process
       Runtime: ruby3.2
       Description: Ruby function
@@ -24,6 +25,6 @@ Resources:
     Properties:
       LayerName: ruby-libs
       Description: Ruby libs
-      ContentUri: ./my_ruby_package.zip
+      ContentUri: ./lambda_app/my_ruby_package.zip
       CompatibleRuntimes:
         - ruby3.2
