@@ -1,6 +1,6 @@
 FROM public.ecr.aws/sam/build-ruby3.2:latest-x86_64
 
-WORKDIR /tmp
+WORKDIR /var/task
 
 RUN yum -y install postgresql-devel
 RUN gem update bundler
