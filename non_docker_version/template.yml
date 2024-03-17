@@ -26,6 +26,6 @@ Resources:
     Properties:
       LayerName: ruby-libs
       Description: Ruby libs
-      ContentUri: ./lambda_app/my_ruby_package.zip
+      ContentUri: ./generate_layer/layer.zip
       CompatibleRuntimes:
         - ruby3.2
