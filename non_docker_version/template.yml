@@ -17,6 +17,7 @@ Resources:
       Environment:
         Variables:
           GEM_HOME: /opt/vendor/bundle/ruby/3.2.0
+          LD_PRELOAD: /opt/lib/libnssutil3.so
       # Function's execution role
       Policies:
         - AWSLambdaBasicExecutionRole
