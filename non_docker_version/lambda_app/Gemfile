@@ -2,5 +2,5 @@
 
 source "https://rubygems.org"
 
-gem 'pg'
-gem 'activesupport'
+gem "pg"
+gem "aws-sdk", "~> 3"
