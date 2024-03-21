@@ -13,4 +13,4 @@ AWS LambdaをRubyで実装したものです。
 
 - `docker build -t ruby-lambda-layer .`
 - `docker run --rm -it -v $PWD:/var/task ruby-lambda-layer`
-- `aws lambda publish-layer-version --layer-name <LAYER名> --zip-file fileb://layer.zip --compatible-runtimes ruby3.2`
+- `aws lambda publish-layer-version --layer-name <LAYER名> --zip-file fileb://layer.zip --compatible-runtimes ruby3.2 --compatible-architectures x86_64`
