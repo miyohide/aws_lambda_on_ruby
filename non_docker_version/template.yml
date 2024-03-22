@@ -2,6 +2,11 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: 'AWS::Serverless-2016-10-31'
 Description: An AWS Lambda Ruby application
 Resources:
+  s3bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub ${AWS::StackName}-input
+
   function:
     Type: AWS::Serverless::Function
     # 関数の定義
@@ -21,6 +26,8 @@ Resources:
       # Function's execution role
       Policies:
         - AWSLambdaBasicExecutionRole
+        - S3ReadPolicy:
+            BucketName: !Ref s3bucket
   libs:
     Type: AWS::Serverless::LayerVersion
     Properties:
