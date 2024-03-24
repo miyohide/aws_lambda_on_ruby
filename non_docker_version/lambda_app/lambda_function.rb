@@ -5,6 +5,8 @@ module LambdaFunction
   class Handler
     def self.process(event:,context:)
       # eventはHash
+      # インストールされているGemを出力する
+      p installed_gems
       # S3接続用のクライアントを作成
       client = Aws::S3::Client.new
       # バケット情報一覧を取得する
@@ -24,6 +26,11 @@ module LambdaFunction
         end
       end
       "Hello World"
+    end
+
+    # インストール済みのGemを返す
+    def self.installed_gems
+      Gem::Specification.sort_by(&:name).map{ |g| "#{g.name} #{g.version}" }
     end
   end
 end
