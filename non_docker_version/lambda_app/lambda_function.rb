@@ -34,6 +34,7 @@ module LambdaFunction
         fname = content.key
         # フォルダの場合はコピー処理を行わない
         next if fname[-1] == "/"
+        # 不足しているディレクトリを作成する
         FileUtils.mkdir_p(File.dirname("/tmp/#{content.key}"))
         File.open("/tmp/#{fname}", "w") do |f|
             f.write(client.get_object(bucket: event["bucketname"], key: fname).body.read)
