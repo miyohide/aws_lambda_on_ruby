@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: An AWS Lambda Ruby application
+Resources:
+  s3bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub ${AWS::StackName}-input
+
+  function:
+    Type: AWS::Serverless::Function
+    # 関数の定義
+    Properties:
+      CodeUri: lambda_app/
+      Handler: lambda_function.LambdaFunction::Handler.process
+      Runtime: ruby3.2
+      Description: Ruby function
+      MemorySize: 512
+      Timeout: 10
+      Layers:
+        - !Ref libs
+      Environment:
+        Variables:
+          GEM_HOME: /opt/ruby/3.2.0
+          LD_PRELOAD: /opt/lib/libnssutil3.so
+      # Function's execution role
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - S3ReadPolicy:
+            BucketName: !Ref s3bucket
+  libs:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: ruby-libs
+      Description: Ruby libs
+      ContentUri: ./generate_layer/layer.zip
+      CompatibleRuntimes:
+        - ruby3.2
