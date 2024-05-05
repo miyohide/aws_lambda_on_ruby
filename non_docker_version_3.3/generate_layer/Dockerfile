@@ -1,8 +1,7 @@
-FROM public.ecr.aws/sam/build-ruby3.2:latest-x86_64
+FROM public.ecr.aws/sam/build-ruby3.3:latest-x86_64
 
 WORKDIR /var/task
 
-RUN amazon-linux-extras install -y postgresql14
-RUN yum -y install postgresql-devel postgresql
+RUN dnf install -y postgresql15 libpq-devel
 RUN gem update bundler
 CMD ["bash", "make_layer.sh"]
